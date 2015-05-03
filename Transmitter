@@ -16,7 +16,7 @@ void setup() {
   pinMode(7, OUTPUT);
   mySwitch.enableTransmit(7);
   
-  mySwitch.send("Loading...");  
+  Serial.print("Loading...");  
   delay(700);
 }
 
