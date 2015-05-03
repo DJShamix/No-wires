@@ -1,0 +1,29 @@
+#include <RCSwitch.h>
+
+#include <Wire.h>
+#include <BMP085.h> 
+BMP085 dps = BMP085(); 
+long Temperature = 0, Pressure = 0;
+float pres = 0;
+
+RCSwitch mySwitch = RCSwitch();
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin(); 
+  delay(1000);
+  dps.init();
+  mySwitch.send("Loading...");
+  delay(700);
+  mySwitch.enableTransmit(7);
+}
+
+void loop() {
+  dps.getPressure(&Pressure); 
+  dps.getTemperature(&Temperature);
+  pres = Pressure/133.3;
+  
+  mySwitch.send(pres, 24);
+  mySwitch.send("End string");
+  delay(1000);
+}
