@@ -13,17 +13,21 @@ void setup() {
   Wire.begin(); 
   delay(1000);
   dps.init();
-  mySwitch.send("Loading...");
-  delay(700);
+  
+  pinMode(7, OUTPUT);
   mySwitch.enableTransmit(7);
+  
+  mySwitch.send("Loading...");  
+  delay(700);
 }
 
 void loop() {
   dps.getPressure(&Pressure); 
-  dps.getTemperature(&Temperature);
-  pres = Pressure/133.3;
-  
-  mySwitch.send(pres, 24);
+//  dps.getTemperature(&Temperature);
+//  pres = Pressure/133.3;
+  Serial.print("Pres = ");
+  Serial.println(Pressure/133.3);
+  mySwitch.send(Pressure/133.3, 24);
   mySwitch.send("End string");
   delay(1000);
 }
