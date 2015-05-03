@@ -26,7 +26,7 @@ void loop() {
 //  pres = Pressure/133.3;
   Serial.print("Pres = ");
   Serial.print(Pressure/133.3);
-  Serial.print("Temp = ");
+  Serial.print(" Temp = ");
   Serial.println(Temperature*0.1);
   mySwitch.send(Pressure/133.3, 24); //здесь 24 меняю на нужное кол-во бит
   delay(200);
