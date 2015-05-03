@@ -3,8 +3,7 @@
 #include <Wire.h>
 #include <BMP085.h> 
 BMP085 dps = BMP085(); 
-long Temperature = 0, Pressure = 0;
-float pres = 0;
+long Temperature = 0, Pressure = 0, pres = 0;
 
 RCSwitch mySwitch = RCSwitch();
 
@@ -23,11 +22,14 @@ void setup() {
 
 void loop() {
   dps.getPressure(&Pressure); 
-//  dps.getTemperature(&Temperature);
+  dps.getTemperature(&Temperature);
 //  pres = Pressure/133.3;
   Serial.print("Pres = ");
-  Serial.println(Pressure/133.3);
-  mySwitch.send(Pressure/133.3, 24);
-  mySwitch.send("End string");
-  delay(1000);
+  Serial.print(Pressure/133.3);
+  Serial.print("Temp = ");
+  Serial.println(Temperature*0.1);
+  mySwitch.send(Pressure/133.3, 24); //здесь 24 меняю на нужное кол-во бит
+  delay(200);
+  mySwitch.send(Temperature*0.1, 24);
+  delay(500);
 }
