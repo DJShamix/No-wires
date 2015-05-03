@@ -1,0 +1,34 @@
+#include <RCSwitch.h>
+
+#include <Wire.h>
+#include <BMP085.h> 
+BMP085 dps = BMP085(); 
+long Temperature = 0, Pressure = 0;
+float pres = 0;
+
+RCSwitch mySwitch = RCSwitch();
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin(); 
+  delay(1000);
+  dps.init();
+  
+  pinMode(7, OUTPUT);
+  mySwitch.enableTransmit(7);
+  
+  mySwitch.send("Loading...");  
+  delay(700);
+}
+
+void loop() {
+  dps.getPressure(&Pressure); 
+//  dps.getTemperature(&Temperature);
+  pres = Pressure/133.3;
+  Serial.print("Pres = ");
+  Serial.println(Pressure/133.3);
+  mySwitch.send("Hello");
+  mySwitch.send(pres, 24); //здесь 24 меняю на нужное кол-во бит
+  mySwitch.send("End string");
+  delay(500);
+}
