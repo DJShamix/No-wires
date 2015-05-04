@@ -1,34 +1,42 @@
 #include <RCSwitch.h>
 RCSwitch mySwitch = RCSwitch();
-
+int i = 0;
+char array[50];
 void setup() {
   Serial.begin(9600);
   mySwitch.enableReceive(0);  // Receiver on inerrupt 0 => that is pin #2
   Serial.println("Device is ready to recieve!");
+  Serial.print("0");
 }
 
 void loop() {
   
   if (mySwitch.available()) {
     
-    int value = mySwitch.getReceivedValue();
+    float value = mySwitch.getReceivedValue();
     
     if (value == 0) {
       Serial.print("Unknown encoding");
     } else {
-   
-     Serial.print("Received ");
-      Serial.println( mySwitch.getReceivedValue() );
-      delay(500);
+      if(value<150){
+        i++;
+         Serial.print(" Temp: ");
+         Serial.print( mySwitch.getReceivedValue() );
+         Serial.println();
+         Serial.print(i);
+      }
+      else{
+         Serial.print(" Press: ");
+         Serial.print( mySwitch.getReceivedValue() );
+      }
+       delay(500);
 //      Serial.print(" / ");
 //      Serial.print( mySwitch.getReceivedBitlength() );
 //      Serial.print("bit ");
 //      Serial.print("Protocol: ");
 //      Serial.println( mySwitch.getReceivedProtocol() );
     }
-    
     mySwitch.resetAvailable();
-    
+   
   }
-
 }
