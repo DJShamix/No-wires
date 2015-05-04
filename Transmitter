@@ -4,6 +4,7 @@
 #include <BMP085.h> 
 BMP085 dps = BMP085(); 
 long Temperature = 0, Pressure = 0, pres = 0;
+int i = 0;
 
 RCSwitch mySwitch = RCSwitch();
 
@@ -12,24 +13,26 @@ void setup() {
   Wire.begin(); 
   delay(1000);
   dps.init();
-  
+  Serial.println("Loading...\n");
   pinMode(7, OUTPUT);
   mySwitch.enableTransmit(7);
-  
-  Serial.print("Loading...");  
+  mySwitch.send(999999, 24);
   delay(700);
 }
 
-void loop() {
+void loop() { 
   dps.getPressure(&Pressure); 
   dps.getTemperature(&Temperature);
-//  pres = Pressure/133.3;
-  Serial.print("Pres = ");
+  
+  Serial.print(i);
+  i++;
+  Serial.print(". Pres = ");
   Serial.print(Pressure/133.3);
   Serial.print(" Temp = ");
   Serial.println(Temperature*0.1);
-  mySwitch.send(Pressure/133.3, 24); //здесь 24 меняю на нужное кол-во бит
+  
+  mySwitch.send(Pressure/133.3*100, 24); //здесь 24 меняю на нужное кол-во бит
   delay(200);
-  mySwitch.send(Temperature*0.1, 24);
+  mySwitch.send(Temperature*0.1*100, 24);
   delay(500);
 }
