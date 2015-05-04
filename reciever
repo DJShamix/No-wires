@@ -6,7 +6,7 @@ void setup() {
   Serial.begin(9600);
   mySwitch.enableReceive(0);  // Receiver on inerrupt 0 => that is pin #2
   Serial.println("Device is ready to recieve!");
-  Serial.print("0");
+
 }
 
 void loop() {
@@ -18,16 +18,23 @@ void loop() {
     if (value == 0) {
       Serial.print("Unknown encoding");
     } else {
-      if(value<150){
+      if(value == 999999){
+        i=0;
+        value = 0;
+      }else{
+      if(value<15000){
         i++;
+        float data = (float)mySwitch.getReceivedValue()/100;
          Serial.print(" Temp: ");
-         Serial.print( mySwitch.getReceivedValue() );
+         Serial.print( data );
          Serial.println();
          Serial.print(i);
       }
       else{
+        float data = (float)mySwitch.getReceivedValue()/100;
          Serial.print(" Press: ");
-         Serial.print( mySwitch.getReceivedValue() );
+         Serial.print( data );
+      }
       }
        delay(500);
 //      Serial.print(" / ");
